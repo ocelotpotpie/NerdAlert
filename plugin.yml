@@ -1,0 +1,21 @@
+name: NerdAlert
+version: 0.1.0
+author: totemo
+authors: [totemo]
+description: Handles important broadcast messages.
+website: http://github.com/NerdNu/NerdAlert
+main: nu.nerd.alert.NerdAlert
+
+permissions:
+  nerdalert.admin:
+    description: Permission to administer the plugin.
+    default: op
+
+commands:
+  nerdalert:
+    description: Reload the configuration.
+    permission: nerdalert.admin
+    usage: |
+      /<command> reload - Reload the configuration.
+      /<command> event <key> [<num> <units>] - Display a countdown to restart
+        or shutdown using broadcasts and/or titles.

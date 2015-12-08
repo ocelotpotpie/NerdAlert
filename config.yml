@@ -1,0 +1,32 @@
+event:
+  broadcast:
+    show: true
+
+  title:
+    show: true
+    seconds: 10
+    fade_in_ticks: 10
+    display_ticks: 100
+    fade_out_ticks: 20
+
+  subtitle:
+    second:  'in 1 second'
+    seconds: 'in %d seconds'
+    minute:  'in 1 minute'
+    minutes: 'in %d minutes'
+
+  messages:
+    warn_restart:
+      broadcast: '&d[Server] PLANNED RESTART IN %s %S.'
+      title: '&cPlanned Restart'
+    warn_stop:
+      broadcast: '&d[Server] GOING DOWN FOR PLANNED MAINTENANCE IN %s %S.'
+      title: '&cStopping For Maintenance'
+    cancel_restart:
+      broadcast: '&d[Server] Planned restart cancelled.'
+    cancel_restart_reason:
+      broadcast: '&d[Server] Planned restart cancelled (%s).'
+    cancel_stop:
+      broadcast: '&d[Server] Planned maintenance cancelled.'
+    cancel_stop_reason:
+      broadcast: '&d[Server] Planned maintenance cancelled (%s).'
