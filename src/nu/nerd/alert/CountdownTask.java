@@ -29,13 +29,15 @@ public class CountdownTask implements Runnable {
      * Revise the display to take into account a new shutdown or restart time.
      *
      * The display is only changed if the new shutdown/restart is earlier. If
-     * the down time is cancelled, this task is cancelled and destroyed.
+     * the down time is cancelled, this task is cancelled and destroyed. For the
+     * sake of testing, the countdown can also be revised once it has counted
+     * down to 0, as occurs when using "/nerdalert event" interactively.
      *
      * @param title the title string.
      * @param seconds the total countdown duration in seconds.
      */
     public void revise(String title, int seconds) {
-        if (seconds < _remaining) {
+        if (seconds < _remaining || _remaining < 0) {
             _title = title;
             _remaining = _duration = seconds;
         }
@@ -43,7 +45,7 @@ public class CountdownTask implements Runnable {
 
     // --------------------------------------------------------------------------
     /**
-     * Start this task running.
+     * Start this task running if it is not currently so.
      *
      * @param plugin the owning Plugin.
      */

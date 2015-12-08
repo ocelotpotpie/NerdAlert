@@ -26,6 +26,10 @@ enough to work with any wrapper that supports configurable notifications of
 server lifecycle events.
 
 The event names supported in the default configuration are:
+ * `restart` - The server is starting right now. Note that the server may
+   restart before this event can be handled.
+ * `stop` - The server is stopping right now. Note that the server may
+   stop before this event can be handled.
  * `warn_restart` - Warn prior to restarting.
  * `warn_stop` - Warn prior to stopping.
  * `cancel_restart` - Cancel restart, with no reason specified.
@@ -38,6 +42,8 @@ these events are:
 ```
 plugin.shutdown.alert_command=nerdalert event %s
 
+plugin.shutdown.stop-message=stop
+plugin.shutdown.restart-message=restart
 plugin.shutdown.restart-warn-message=warn_restart {delay}
 plugin.shutdown.stop-warn-message=warn_stop {delay}
 plugin.shutdown.restart-cancel-message=cancel_restart
@@ -93,9 +99,11 @@ Configuration
      minutes count down value of 0 or multiple minutes.
    * `event.mesages.*` - Message and title string formatting options.
      * `event.messages.<event>.broadcast` - Java format specifier for
-       broadcast messages, including ampersand colour codes.
+       broadcast messages, including ampersand colour codes. Set this to the
+       empty string to suppress the broadcast for that event.
      * `event.messages.<event>.title` - Title string to display,
-       including ampersand colour codes.
+       including ampersand colour codes. Set this to the
+       empty string to suppress the title overlay for that event.
 
 
 Permissions

@@ -50,6 +50,7 @@ public class NerdAlert extends JavaPlugin {
         if (command.getName().equals("nerdalert")) {
             if (args.length == 1 && args[0].equals("reload")) {
                 _config.reload();
+                sender.sendMessage(ChatColor.GOLD + "NerdAlert configuration reloaded.");
                 return true;
             } else if (args.length >= 2 && args[0].equals("event")) {
                 return onCommandEvent(args);
@@ -89,16 +90,21 @@ public class NerdAlert extends JavaPlugin {
         }
 
         if (_config.EVENT_BROADCAST_SHOW) {
-            String format = getConfig().getString("event.messages." + event + ".broadcast", event);
+            String format = getConfig().getString("event.messages." + event + ".broadcast", "");
             Object[] formatArgs = Arrays.copyOfRange(args, 2, args.length);
-            Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', String.format(format, formatArgs)));
+            String message = ChatColor.translateAlternateColorCodes('&', String.format(format, formatArgs));
+            if (message.length() > 0) {
+                Bukkit.broadcastMessage(message);
+            }
         }
 
         if (event.toLowerCase().startsWith("cancel")) {
             cancelCountdown();
         } else if (_config.EVENT_TITLE_SHOW) {
-            String title = getConfig().getString("event.messages." + event + ".title", event);
-            showCountdown(title, seconds);
+            String title = getConfig().getString("event.messages." + event + ".title", "");
+            if (title.length() > 0) {
+                showCountdown(title, seconds);
+            }
         }
         return true;
     } // onCommandEvent
@@ -113,10 +119,10 @@ public class NerdAlert extends JavaPlugin {
     protected void showCountdown(final String title, final int seconds) {
         if (_countdownTask == null) {
             _countdownTask = new CountdownTask(_config, title, seconds);
-            _countdownTask.start(this);
         } else {
             _countdownTask.revise(title, seconds);
         }
+        _countdownTask.start(this);
     }
 
     // ------------------------------------------------------------------------

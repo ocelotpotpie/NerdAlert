@@ -16,6 +16,12 @@ event:
     minutes: 'in %d minutes'
 
   messages:
+    restart:
+      broadcast: '&dSERVER RESTARTING.'
+      title: '&cRestarting'
+    stop:
+      broadcast: '&dSERVER GOING DOWN FOR MAINTENANCE.'
+      title: '&cStopping'
     warn_restart:
       broadcast: '&d[Server] PLANNED RESTART IN %s %S.'
       title: '&cPlanned Restart'
