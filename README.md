@@ -1,14 +1,17 @@
 NerdAlert
 =========
+
 NerdAlert displays notifications for important server events.
+
 
 Shutdown and Restart Notifications
 ----------------------------------
+
 The `/nerdalert event` command can display broadcast messages and title
 overlays alerting players to an impending server shutdown or restart.
 The title overlays include a count down to the event. The count down can be
-cancelled. Title overlays can be cancelled. A cancellation message will be
-broadcast in chat, but not shown as a title overlay.
+cancelled. A cancellation message will be broadcast in chat, but not shown as
+a title overlay.
 
 NerdAlert does not shut down or restart the server itself. It only displays
 notifications about these events on behalf of the server wrapper.
@@ -16,6 +19,7 @@ notifications about these events on behalf of the server wrapper.
 
 Mark2 Configuration
 -------------------
+
 NerdAlert is designed primarily for integration with the
 [mark2](https://github.com/gsand/mark2) server wrapper, although it is general
 enough to work with any wrapper that supports configurable notifications of
@@ -23,7 +27,7 @@ server lifecycle events.
 
 The event names supported in the default configuration are:
  * `warn_restart` - Warn prior to restarting.
- * `warn_stop`` - Warn prior to stopping.
+ * `warn_stop` - Warn prior to stopping.
  * `cancel_restart` - Cancel restart, with no reason specified.
  * `cancel_restart_reason` - Cancel restart, with a reason specified.
  * `cancel_stop` - Cancel stop, with no reason specified.
@@ -49,8 +53,10 @@ servers in `~/.config/mark2/mark2.properties`.
 
 Commands
 --------
+
 `/nerdalert reload`
  * Reload the configuration.
+
 `/nerdalert event <event> [...]`
  * `<event>` identifies a server lifecycle event and selects the title string
    and format specifier for broadcast messages.
