@@ -96,7 +96,7 @@ public class NerdAlert extends JavaPlugin {
 
         if (event.toLowerCase().startsWith("cancel")) {
             cancelCountdown();
-        } else {
+        } else if (_config.EVENT_TITLE_SHOW) {
             String title = getConfig().getString("event.messages." + event + ".title", event);
             showCountdown(title, seconds);
         }
