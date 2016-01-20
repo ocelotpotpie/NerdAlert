@@ -19,9 +19,8 @@ public class CountdownTask implements Runnable {
      */
     public CountdownTask(Configuration config, String title, int seconds) {
         _config = config;
-        _title = title;
-        _remaining = _duration = seconds;
         _id = -1;
+        initialise(title, seconds);
     }
 
     // ------------------------------------------------------------------------
@@ -37,9 +36,8 @@ public class CountdownTask implements Runnable {
      * @param seconds the total countdown duration in seconds.
      */
     public void revise(String title, int seconds) {
-        if (seconds < _remaining || _remaining < 0) {
-            _title = title;
-            _remaining = _duration = seconds;
+        if (seconds < _lastSeconds || _lastSeconds <= 0) {
+            initialise(title, seconds);
         }
     }
 
@@ -51,7 +49,7 @@ public class CountdownTask implements Runnable {
      */
     public void start(Plugin plugin) {
         if (_id < 0) {
-            _id = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, 0, 20);
+            _id = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, 0, 1);
         }
     }
 
@@ -67,20 +65,31 @@ public class CountdownTask implements Runnable {
     }
 
     // ------------------------------------------------------------------------
-
+    /**
+     * Synchronous task code.
+     *
+     * The task wakes up every tick during the countdown to ensure that the
+     * display is accurate when the server is lagging.
+     */
     @Override
     public void run() {
-        if (_remaining == _duration || _remaining <= _config.EVENT_TITLE_SECONDS || _remaining % 60 == 0) {
-            showTitle(_title, formatSubtitle(_remaining),
-                _config.EVENT_TITLE_FADE_IN_TICKS,
-                _config.EVENT_TITLE_DISPLAY_TICKS,
-                _config.EVENT_TITLE_FADE_OUT_TICKS);
+        int elapsedSeconds = (int) (System.currentTimeMillis() - _startTime) / 1000;
+        int remaining = _duration - elapsedSeconds;
+        if (_lastSeconds != remaining) {
+            _lastSeconds = remaining;
+
+            if (remaining == _duration || remaining <= _config.EVENT_TITLE_SECONDS || remaining % 60 == 0) {
+                showTitle(_title, formatSubtitle(remaining),
+                    _config.EVENT_TITLE_FADE_IN_TICKS,
+                    _config.EVENT_TITLE_DISPLAY_TICKS,
+                    _config.EVENT_TITLE_FADE_OUT_TICKS);
+            }
         }
-        --_remaining;
-        if (_remaining < 0) {
+
+        if (remaining <= 0) {
             cancel();
         }
-    }
+    } // run
 
     // ------------------------------------------------------------------------
     /**
@@ -112,7 +121,7 @@ public class CountdownTask implements Runnable {
      * @param displayTicks the number of ticks to display.
      * @param fadeOutTicks the number of ticks to fade out.
      */
-    protected void showTitle(String title, String subtitle, int fadeInTicks, int displayTicks, int fadeOutTicks) {
+    protected static void showTitle(String title, String subtitle, int fadeInTicks, int displayTicks, int fadeOutTicks) {
         String cmdTime = String.format("title @a times %d %d %d", fadeInTicks, displayTicks, fadeOutTicks);
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmdTime);
         String cmdTitle = String.format("title @a title {text:\"%s\"}", ChatColor.translateAlternateColorCodes('&', title));
@@ -121,6 +130,22 @@ public class CountdownTask implements Runnable {
             String cmdSub = String.format("title @a subtitle {text:\"%s\"}", ChatColor.translateAlternateColorCodes('&', subtitle));
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmdSub);
         }
+    }
+
+    // ------------------------------------------------------------------------
+    /**
+     * Common initialisation code that sets the mian title, duration of the
+     * countdown and records the start real-world time.
+     *
+     * @param title the title string.
+     * @param seconds the total countdown duration in seconds.
+     */
+    protected void initialise(String title, int seconds) {
+        // Force display of title on the first run().
+        _lastSeconds = -1;
+        _title = title;
+        _duration = seconds;
+        _startTime = System.currentTimeMillis();
     }
 
     // ------------------------------------------------------------------------
@@ -140,13 +165,22 @@ public class CountdownTask implements Runnable {
     protected int _duration;
 
     /**
-     * Remaining countdown duration in seconds.
+     * Remaining time in seconds computed on the last run() call.
+     *
+     * Titles will only be updated when this value changes (along with the other
+     * restrictions on when they are shown).
      */
-    protected int _remaining;
+    protected int _lastSeconds;
 
     /**
      * Bukkit scheduler ID of this task. Set to -1 as a sentinel on
      * cancellation.
      */
     protected int _id;
+
+    /**
+     * Real world countdown start timestamp.
+     */
+    protected long _startTime;
+
 } // class CountdownTask
