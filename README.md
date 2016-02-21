@@ -97,6 +97,7 @@ Configuration
      minutes count of 1.
    * `event.subtitle.minutes` - Format string for subtitles showing a
      minutes count down value of 0 or multiple minutes.
+   * `event.subtitle.now` - Format string for the subtitle shown at 0 seconds.
    * `event.mesages.*` - Message and title string formatting options.
      * `event.messages.<event>.broadcast` - Java format specifier for
        broadcast messages, including ampersand colour codes. Set this to the

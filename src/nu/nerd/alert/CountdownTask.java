@@ -73,7 +73,7 @@ public class CountdownTask implements Runnable {
      */
     @Override
     public void run() {
-        int elapsedSeconds = (int) (System.currentTimeMillis() - _startTime) / 1000;
+        int elapsedSeconds = (int) (System.currentTimeMillis() + EARLY_MS - _startTime) / 1000;
         int remaining = _duration - elapsedSeconds;
         if (_lastSeconds != remaining) {
             _lastSeconds = remaining;
@@ -100,7 +100,10 @@ public class CountdownTask implements Runnable {
     protected String formatSubtitle(int seconds) {
         int number;
         String key;
-        if (seconds > 0 && seconds % 60 == 0) {
+        if (seconds == 0) {
+            number = 0;
+            key = "now";
+        } else if (seconds > 0 && seconds % 60 == 0) {
             number = seconds / 60;
             key = (number == 1) ? "minute" : "minutes";
         } else {
@@ -149,6 +152,12 @@ public class CountdownTask implements Runnable {
     }
 
     // ------------------------------------------------------------------------
+    /**
+     * The countdown times are shown early by this many milliseconds so that the
+     * countdown can go right to 0.
+     */
+    protected static final int EARLY_MS = 100;
+
     /**
      * Configuration.
      */

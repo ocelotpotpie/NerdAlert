@@ -14,6 +14,7 @@ event:
     seconds: 'in %d seconds'
     minute:  'in 1 minute'
     minutes: 'in %d minutes'
+    now: 'NOW'
 
   messages:
     restart:
