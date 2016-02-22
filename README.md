@@ -89,6 +89,9 @@ Configuration
        persists on screen.
      * `event.title.fade_out_ticks` - Number of ticks the title display
        fades out.
+     * `event.title.early_ms` - Number of milliseconds to that the
+       countdown should be early so that it reaches 0. Do not set this higher
+       than 999: the subtitle at the 1 minute mark will be missed.
    * `event.subtitle.second` - Format string for subtitles showing a
      seconds count of 1.
    * `event.subtitle.seconds` - Format string for subtitles showing a

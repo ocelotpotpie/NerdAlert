@@ -8,6 +8,7 @@ event:
     fade_in_ticks: 10
     display_ticks: 100
     fade_out_ticks: 20
+    early_ms: 500
 
   subtitle:
     second:  'in 1 second'
