@@ -14,6 +14,7 @@ public class Configuration {
     public int EVENT_TITLE_FADE_IN_TICKS;
     public int EVENT_TITLE_DISPLAY_TICKS;
     public int EVENT_TITLE_FADE_OUT_TICKS;
+    public int EVENT_TITLE_EARLY_MS;
 
     // ------------------------------------------------------------------------
     /**
@@ -47,6 +48,7 @@ public class Configuration {
         EVENT_TITLE_FADE_IN_TICKS = getConfig().getInt("event.title.fade_in_ticks");
         EVENT_TITLE_DISPLAY_TICKS = getConfig().getInt("event.title.display_ticks");
         EVENT_TITLE_FADE_OUT_TICKS = getConfig().getInt("event.title.fade_out_ticks");
+        EVENT_TITLE_EARLY_MS = getConfig().getInt("event.title.early_ms");
     }
 
     // ------------------------------------------------------------------------
