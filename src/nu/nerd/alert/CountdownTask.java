@@ -127,10 +127,10 @@ public class CountdownTask implements Runnable {
     protected static void showTitle(String title, String subtitle, int fadeInTicks, int displayTicks, int fadeOutTicks) {
         String cmdTime = String.format("title @a times %d %d %d", fadeInTicks, displayTicks, fadeOutTicks);
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmdTime);
-        String cmdTitle = String.format("title @a title {text:\"%s\"}", ChatColor.translateAlternateColorCodes('&', title));
+        String cmdTitle = String.format("title @a title {\"text\":\"%s\"}", ChatColor.translateAlternateColorCodes('&', title));
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmdTitle);
         if (subtitle != null) {
-            String cmdSub = String.format("title @a subtitle {text:\"%s\"}", ChatColor.translateAlternateColorCodes('&', subtitle));
+            String cmdSub = String.format("title @a subtitle {\"text\":\"%s\"}", ChatColor.translateAlternateColorCodes('&', subtitle));
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmdSub);
         }
     }
