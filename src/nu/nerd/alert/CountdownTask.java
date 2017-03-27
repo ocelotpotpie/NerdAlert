@@ -2,6 +2,7 @@ package nu.nerd.alert;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 // ----------------------------------------------------------------------------
@@ -125,13 +126,10 @@ public class CountdownTask implements Runnable {
      * @param fadeOutTicks the number of ticks to fade out.
      */
     protected static void showTitle(String title, String subtitle, int fadeInTicks, int displayTicks, int fadeOutTicks) {
-        String cmdTime = String.format("title @a times %d %d %d", fadeInTicks, displayTicks, fadeOutTicks);
-        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmdTime);
-        String cmdTitle = String.format("title @a title {\"text\":\"%s\"}", ChatColor.translateAlternateColorCodes('&', title));
-        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmdTitle);
-        if (subtitle != null) {
-            String cmdSub = String.format("title @a subtitle {\"text\":\"%s\"}", ChatColor.translateAlternateColorCodes('&', subtitle));
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmdSub);
+        title = ChatColor.translateAlternateColorCodes('&', title);
+        subtitle = ChatColor.translateAlternateColorCodes('&', subtitle);
+        for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+            player.sendTitle(title, subtitle, fadeInTicks, displayTicks, fadeOutTicks);
         }
     }
 
